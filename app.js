@@ -1,14 +1,16 @@
+import "dotenv/config.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import { env } from "./utils/helpers.js";
 const app = express();
-
-app.listen(3000, () => {
-  console.log(`server running on port: 3000`);
+const port = env("PORT");
+app.listen(port, () => {
+  console.log(`server running on port: ${port}`);
 });
 
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(express.static("public"));
-// app.set("view engine", "ejs")
