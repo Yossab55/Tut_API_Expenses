@@ -1,4 +1,4 @@
-import "util/promisify";
+import util from "util";
 
 function env(field) {
   return process.env[field] || null;
@@ -7,7 +7,7 @@ function env(field) {
 export { env };
 
 function makeItPromisify(fn) {
-  return promisify(fn);
+  return util.promisify(fn);
 }
 
 export { makeItPromisify };
