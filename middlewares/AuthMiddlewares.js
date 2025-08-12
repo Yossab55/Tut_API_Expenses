@@ -10,10 +10,14 @@ AuthMiddlewares.requiredAuth = async function requiredAuth(req, res, next) {
   const token = req.cookies.token;
   //todo I guess you can make tryCatch wrapper
   if (token) {
-    //todo if promis rejected you should handel it with try
-    const tokenDecoded = await verify(token, JWT_SECRET);
-    req.user.id = tokenDecoded.id;
-    return next();
+    //todo chick this function works or not
+    this.tryCatchAbstractBlock(verifyToken);
+
+    async function verifyToken(params) {
+      const tokenDecoded = await verify(token, JWT_SECRET);
+      req.user.id = tokenDecoded.id;
+      return next();
+    }
     /**
    * (tokenError, tokenDecoded) => {
     if (tokenError) {
@@ -41,5 +45,4 @@ AuthMiddlewares.isUserLoggedIn = async function isUserLoggedIn(req, res, next) {
   }
 };
 
-console.log(AuthMiddlewares.prototype);
 export { AuthMiddlewares };

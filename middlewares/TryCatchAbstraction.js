@@ -7,6 +7,15 @@ const tryCatchAbstraction = {
       return next(error);
     }
   },
+  tryCatchFunctionWrapper: function tryCatchFunctionWrapper(callback) {
+    return async function controllerWrapper(req, res, next) {
+      try {
+        await callback(req, res, next);
+      } catch (error) {
+        return next(error);
+      }
+    };
+  },
 };
 
 export { tryCatchAbstraction };
