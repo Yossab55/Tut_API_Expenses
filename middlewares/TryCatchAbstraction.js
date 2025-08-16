@@ -1,5 +1,5 @@
 const tryCatchAbstraction = {
-  tryCatchAbstractBlock: function tryCatchAbstractBlock(fn, next, ...args) {
+  tryCatchBlockWrapper: function tryCatchBlockWrapper(fn, next, ...args) {
     try {
       fn.call(null, args);
       return next();
