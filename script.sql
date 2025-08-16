@@ -19,34 +19,27 @@ ALTER TABLE `Expenses` ADD CONSTRAINT `user_expenses_fk` FOREIGN KEY (`user_id`)
 
 
 DELIMITER $$
-CREATE PROCEDURE find_user(IN `user_param_id` INT)
+CREATE PROCEDURE find_user(IN user_param_id INT)
   BEGIN
     SELECT * 
     FROM Users
-    WHERE user_id = `user_param_id`;
+    WHERE user_id = user_param_id;
   END $$
 DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE user_today_expenses(in `user_param_id` INT)
+CREATE PROCEDURE user_today_expenses(in user_param_id INT)
 BEGIN
   SELECT *
   FROM Expenses
-  WHERE user_id = `user_param_id`;
+  WHERE user_id = user_param_id 
+  && DATE(expense_date) = CURDATE();
 END $$
 DELIMITER ;
 
 /* 
 ! see if you can make it logic better in node proejct or not
-  DELIMITER $$
-  CREATE PROCEDURE user_today_expenses(IN `user_param_id` INT)
-  BEGIN
-    SELECT *
-    FROM Expenses
-    WHERE user_id = `user_param_id` AND expense_date = NOW();
-  END $$
-  DELIMITER ;
 
   DELIMITER $$
   CREATE PROCEDURE user_last_period_expenses(IN `user_param_id` INT, IN `expense_last_period` datetime)
