@@ -11,7 +11,7 @@ CREATE TABLE `Expenses` (
   `expense_id` integer PRIMARY KEY,
   `expense_category` varchar(60) NOT NULL COMMENT 'categorized by name',
   `expense_amount` decimal,
-  `expense_date` datetime NOT NULL,
+  `expense_date` datetime NOT NULL, -- YYYY-MM-DD hh:mm:ss
   `user_id` integer
 );
 
