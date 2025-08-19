@@ -8,13 +8,13 @@ const procedures = {
   todayExpenses: "user_today_expenses",
 };
 const MySQLGrammar = {
-  fields,
-  tableName,
-  filters,
+  fields: null,
+  tableName: null,
+  filters: null,
   inti: function initialParts(fields, tableName, filter) {
-    this.fields = fields;
-    this.tableName = tableName;
-    this.filters = filter;
+    this.fields = fields || this.fields;
+    this.tableName = tableName || this.tableName;
+    this.filters = filter || this.filters;
   },
   buildGetUserProcedure: function buildGetUserProcedure(id) {
     return `call ${procedures.getOneUser}(${id});`;
