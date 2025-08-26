@@ -1,39 +1,39 @@
-import Joi from "joi";
+import joi from "joi";
 
-const JoiWrapper = {
+const Joi = {
   createObject(schema) {
-    return Joi.object(schema);
+    return joi.object(schema);
   },
 
   string() {
-    return Joi.string();
+    return joi.string();
   },
 
   number() {
-    return Joi.number();
+    return joi.number();
   },
   boolean() {
-    return Joi.boolean();
+    return joi.boolean();
   },
 
   date() {
-    return Joi.date();
+    return joi.date();
   },
 
   email() {
-    return Joi.string().email();
+    return joi.string().email();
   },
 
   reference(column) {
-    return Joi.ref(column);
+    return joi.ref(column);
   },
 
   stringBetween(min = 8, max = 32) {
-    return Joi.string().min(min).max(max);
+    return joi.string().min(min).max(max);
   },
 
   required() {
-    return Joi.required();
+    return joi.required();
   },
 };
-export { JoiWrapper };
+export { Joi };

@@ -1,10 +1,10 @@
-import { JoiWrapper } from "../../source/interface/joi.js";
+import { Joi } from "../../source/interface/joi.js";
 
-const UserSchema = JoiWrapper.createObject({
-  user_id: JoiWrapper.number().required(),
-  user_email: JoiWrapper.email().required(),
-  user_name: JoiWrapper.stringBetween(2, 70).required(),
-  password: JoiWrapper.string(),
+const UserSchema = Joi.createObject({
+  user_id: Joi.number().required(),
+  user_email: Joi.email().required(),
+  user_name: Joi.stringBetween(2, 70).required(),
+  password: Joi.string(),
 });
 
 export { UserSchema };
