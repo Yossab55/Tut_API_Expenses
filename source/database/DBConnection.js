@@ -1,10 +1,11 @@
+import "dotenv/config.js";
 import mysql from "mysql2/promise";
 import { env } from "../../utils/helpers.js";
 
 const connectionLimit = 10;
 const queueLimit = 0;
-console.log(env("DBhost"));
-const mainPool = mysql.createPool({
+
+const pool = mysql.createPool({
   user: env("DBUser"),
   password: env("DBPassword"),
   host: env("DBhost"),
@@ -14,4 +15,13 @@ const mainPool = mysql.createPool({
   queueLimit,
 });
 
-export { mainPool };
+async function execute(query, values) {
+  const connection = await pool.getConnection();
+  if (!Array.isArray(values)) {
+    values = Object.values(values);
+  }
+  const [results, fields] = await connection.query(query, values);
+  pool.releaseConnection(connection);
+  return [results, fields];
+}
+export { execute };

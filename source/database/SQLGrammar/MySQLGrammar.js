@@ -8,19 +8,22 @@ const procedures = {
   todayExpenses: "user_today_expenses",
 };
 const MySQLGrammar = {
-  fields: null,
   tableName: null,
+  fields: null,
   filters: null,
-  inti: function initialParts(fields, tableName, filter) {
-    this.fields = fields || this.fields;
+  //@ tableName, fields, filter
+  inti: function initialParts(tableName, fields, filter) {
     this.tableName = tableName || this.tableName;
+    this.fields = fields || this.fields;
     this.filters = filter || this.filters;
   },
   buildGetUserProcedure: function buildGetUserProcedure(id) {
     return `call ${procedures.getOneUser}(${id});`;
   },
-  buildGetTodayExpensesProcedure: function buildGetTodayExpensesProcedure(id) {
-    return `call ${procedures.todayExpenses}(${id})`;
+  buildGetTodayExpensesProcedure: function buildGetTodayExpensesProcedure(
+    userId
+  ) {
+    return `call ${procedures.todayExpenses}(${userId})`;
   },
   buildSelect: function buildSelect() {
     if (this.fields) {
@@ -40,19 +43,15 @@ const MySQLGrammar = {
     console.log(query);
     return query;
   },
-  buildInsert: function buildInsertQuery(valuesToInsert) {
-    // Insert Into tableName (fields)
-    //values (array of arrays) (value, value value, ...),
-    // (value, value, value, ,...) .... until array finishes
-    const startPart = `INSET INTO ${this.tableName}`;
+  buildInsert: function buildInsertQuery() {
+    const startPart = `INSERT INTO ${this.tableName}`;
     const fieldsToInsert = this.fields.join(", ");
-    let valuesPart = "Values ";
-    for (let i = 0; i < valuesToInsert.length; i++) {
-      const collection = valuesToInsert[i];
-      valuesPart += `(${collection.join(", ")})`;
-      if (i != valuesToInsert.length - 1) valuesPart += ", ";
+    let valuesHolder = "";
+    for (let i = 0; i < this.fields.length; i++) {
+      valuesHolder += "?";
+      if (this.fields.length - 1 != i) valuesHolder += ", ";
     }
-    const query = `${startPart} (${fieldsToInsert}) ${valuesPart};`;
+    const query = `${startPart} (${fieldsToInsert}) VALUES (${valuesHolder})`;
     return query;
   },
   buildDeleteCondition: function buildDeleteCondition() {
@@ -74,7 +73,7 @@ const MySQLGrammar = {
     const startPart = `UPDATE FROM ${this.tableName}`;
     const setPart = this.fields.join(" = ?, ") + " = ?";
     const wherePart = this.filters.join(" ");
-    const query = `${startPart} ${setPart} ${wherePart};`;
+    const query = `${startPart} SET ${setPart} ${wherePart};`;
     return query;
   },
 };

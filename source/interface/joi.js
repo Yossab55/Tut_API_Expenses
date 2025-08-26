@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const Validator = {
+const JoiWrapper = {
   createObject(schema) {
     return Joi.object(schema);
   },
@@ -11,6 +11,9 @@ const Validator = {
 
   number() {
     return Joi.number();
+  },
+  boolean() {
+    return Joi.boolean();
   },
 
   date() {
@@ -25,8 +28,12 @@ const Validator = {
     return Joi.ref(column);
   },
 
+  stringBetween(min = 8, max = 32) {
+    return Joi.string().min(min).max(max);
+  },
+
   required() {
     return Joi.required();
   },
 };
-export { Validator };
+export { JoiWrapper };
