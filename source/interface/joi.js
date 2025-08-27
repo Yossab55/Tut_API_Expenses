@@ -1,39 +1,53 @@
 import joi from "joi";
-
+const validationOptions = {
+  abortEarly: false,
+};
 const Joi = {
-  createObject(schema) {
+  createObject: function createObject(schema) {
     return joi.object(schema);
   },
-
-  string() {
+  string: function stringSchemaJoi() {
     return joi.string();
   },
-
-  number() {
+  number: function numberSchemaJoi() {
     return joi.number();
   },
-  boolean() {
+  boolean: function booleanSchemaJoi() {
     return joi.boolean();
   },
-
-  date() {
+  date: function dateSchemaJoi() {
     return joi.date();
   },
-
-  email() {
+  email: function emailSchemaJoi() {
     return joi.string().email();
   },
-
-  reference(column) {
+  arrayItems: function arrayItemsJoi(itemsSchema) {
+    return joi.array().items(itemsSchema);
+  },
+  reference: function referenceJoi(column) {
     return joi.ref(column);
   },
 
-  stringBetween(min = 8, max = 32) {
+  between: function betweenJoi(schema, min = 8, max = 32) {
+    // if it's a an email or password or any schema you want
+    if (schema) return schema.min(min).max(max);
     return joi.string().min(min).max(max);
   },
 
-  required() {
+  required: function requiredJoi() {
     return joi.required();
+  },
+  //@ sync validation
+  createValidator: function createValidator(joiSchema) {
+    return function validator(payload) {
+      joiSchema.validate(payload, validationOptions);
+    };
+  },
+  //@ async validation
+  createValidator: function createValidatorAsync(joiSchema) {
+    return function validatorAsync(payload) {
+      joiSchema.validateAsync(payload, validationOptions);
+    };
   },
 };
 export { Joi };
