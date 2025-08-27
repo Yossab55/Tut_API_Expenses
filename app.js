@@ -5,7 +5,7 @@ import "dotenv/config.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
-import { CatchError } from "./middlewares/ErrorsMiddleware.js";
+import { catchErrorHandel } from "./middlewares/ErrorsMiddleware.js";
 import { env } from "./utils/helpers.js";
 const app = express();
 
@@ -20,4 +20,4 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static("public"));
 
-app.use(CatchError.catchErrorHandel);
+app.use(catchErrorHandel);
