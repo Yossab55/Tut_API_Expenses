@@ -11,10 +11,10 @@ AuthMiddlewares.requiredAuth = async function requiredAuth(req, res, next) {
   //todo I guess you can make tryCatch wrapper
   if (token) {
     //todo chick this function works or not
-    this.tryCatchAbstractBlock(verifyToken);
+    return this.tryCatchAbstractBlock(verifyToken);
 
     async function verifyToken(params) {
-      const tokenDecoded = await verify(token, JWT_SECRET);
+      const tokenDecoded = await verify(token, JWT_SECRET, params);
       req.user.id = tokenDecoded.id;
       return next();
     }

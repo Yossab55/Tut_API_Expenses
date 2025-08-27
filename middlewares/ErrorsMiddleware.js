@@ -1,5 +1,10 @@
+function catchErrorHandel(req, res, next, error) {}
+
+export { catchErrorHandel };
+
 const CatchError = {
-  catchErrorHandel: function catchErrorHandel(req, res, next, error) {},
+  catchErrorHandel,
 };
 
+console.log(CatchError);
 export { CatchError };
