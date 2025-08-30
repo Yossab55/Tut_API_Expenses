@@ -5,7 +5,8 @@ import "dotenv/config.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
-import { catchErrorHandel } from "./middlewares/ErrorsMiddleware.js";
+import { SignupRouter } from "./routers/SignupRouter.js";
+import { ErrorHandel } from "./middlewares/ErrorsMiddleware.js";
 import { env } from "./utils/helpers.js";
 const app = express();
 
@@ -20,4 +21,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static("public"));
 
-app.use(catchErrorHandel);
+app.use("/signup", SignupRouter);
+
+app.use(ErrorHandel);

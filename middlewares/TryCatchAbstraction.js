@@ -1,21 +1,11 @@
-const tryCatchAbstraction = {
-  tryCatchBlockWrapper: function tryCatchBlockWrapper(fn, next, ...args) {
+function tryCatchFunction(callback) {
+  return async function controllerWrapper(req, res, next) {
     try {
-      fn.call(null, args);
-      return next();
+      await callback(req, res, next);
     } catch (error) {
+      console.log(error);
       return next(error);
     }
-  },
-  tryCatchFunctionWrapper: function tryCatchFunctionWrapper(callback) {
-    return async function controllerWrapper(req, res, next) {
-      try {
-        await callback(req, res, next);
-      } catch (error) {
-        return next(error);
-      }
-    };
-  },
-};
-
-export { tryCatchAbstraction };
+  };
+}
+export { tryCatchFunction };

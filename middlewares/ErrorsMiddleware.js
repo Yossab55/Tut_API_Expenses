@@ -1,10 +1,17 @@
-function catchErrorHandel(req, res, next, error) {}
+function ErrorHandel(error, req, res, next) {
+  console.log("hello I'm the error handel");
+  // console.log("error: ", error);
+  // console.log("error message: ", error.message);
+  // console.log("error code: ", error.code);
+  // console.log("error errno: ", error.errno);
+  res.status(400).send(error);
+}
 
-export { catchErrorHandel };
+export { ErrorHandel };
 
-const CatchError = {
-  catchErrorHandel,
-};
+// const CatchError = {
+//   catchErrorHandel,
+// };
 
-console.log(CatchError);
-export { CatchError };
+// console.log(CatchError);
+// export { CatchError };

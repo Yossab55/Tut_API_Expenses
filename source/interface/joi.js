@@ -1,4 +1,5 @@
 import joi from "joi";
+
 const validationOptions = {
   abortEarly: false,
 };
@@ -28,7 +29,7 @@ const Joi = {
     return joi.ref(column);
   },
 
-  between: function betweenJoi(schema, min = 8, max = 32) {
+  between: function betweenJoi(min = 8, max = 32, schema) {
     // if it's a an email or password or any schema you want
     if (schema) return schema.min(min).max(max);
     return joi.string().min(min).max(max);
@@ -40,13 +41,13 @@ const Joi = {
   //@ sync validation
   createValidator: function createValidator(joiSchema) {
     return function validator(payload) {
-      joiSchema.validate(payload, validationOptions);
+      return joiSchema.validate(payload, validationOptions);
     };
   },
   //@ async validation
-  createValidator: function createValidatorAsync(joiSchema) {
-    return function validatorAsync(payload) {
-      joiSchema.validateAsync(payload, validationOptions);
+  createValidatorAsync: function createValidatorAsync(joiSchema) {
+    return async function validatorAsync(payload) {
+      return await joiSchema.validateAsync(payload, validationOptions);
     };
   },
 };

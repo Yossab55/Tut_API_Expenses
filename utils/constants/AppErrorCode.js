@@ -1,0 +1,3 @@
+const AppErrorCode = {};
+
+export { AppErrorCode };

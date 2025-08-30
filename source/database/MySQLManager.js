@@ -5,13 +5,8 @@ const MySQLManager = Object.create(MySQLGrammar);
 
 MySQLManager.insert = async function insert(values) {
   const query = this.buildInsert();
-  console.log(query);
-  try {
-    const [results] = await execute(query, values);
-    return results;
-  } catch (error) {
-    console.log(error);
-  }
+  const [results] = await execute(query, values);
+  return results;
 };
 
 MySQLManager.getUser = async function getUser(id, values) {
