@@ -1,5 +1,6 @@
 import { MySQLManager } from "../source/database/MySQLManager.js";
 import { stringBinarySearch } from "../utils/helpers.js";
+import { Bcrypt } from "../source/interface/bcrypt.js";
 
 const UserModel = Object.create(MySQLManager);
 //todo there is a problem that you need to send your data in the same order
@@ -15,7 +16,7 @@ UserModel.save = async function save(value) {
     user_id,
     user_email,
     user_name,
-    password,
+    password: await Bcrypt.hashIt(password),
   };
   this.initial("Users", this.userFields);
   const result = await this.insert(value);
