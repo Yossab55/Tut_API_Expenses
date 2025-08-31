@@ -17,7 +17,7 @@ const pool = mysql.createPool({
 
 async function execute(query, values) {
   const connection = await pool.getConnection();
-  if (!Array.isArray(values)) {
+  if (!Array.isArray(values) && values != undefined) {
     values = Object.values(values);
   }
   const [results, fields] = await connection.query(query, values);

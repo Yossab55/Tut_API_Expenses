@@ -7,8 +7,7 @@ const SignupController = {
   signUp: async function signUp(req, res, next) {
     const data = req.body;
     const { error } = userValidator(data);
-    console.log(error, "hello");
-    if (error) return next(error);
+    if (error) throw error;
     const user = await UserModel.save(data);
     const payload = { id: user.user_id };
     const token = await JWT.createToken(payload);

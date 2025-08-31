@@ -11,45 +11,45 @@ MySQLManager.insert = async function insert(values) {
 
 MySQLManager.getUser = async function getUser(id, values) {
   const query = this.buildGetUserProcedure(id);
-  try {
-    const [results] = await execute(query, values);
-    console.log(results);
-    return results;
-  } catch (error) {
-    console.log(error);
-  }
+  const [results] = await execute(query, values);
+  console.log(results);
+  return results;
+};
+
+MySQLManager.select = async function selectStatement() {
+  const query = this.buildSelect();
+  const [results] = await execute(query);
+  return results;
+};
+
+MySQLManager.selectWithOrderBy = async function selectWithOrderBy() {
+  const query = this.addMultiplyQueriesTogether(
+    this.buildSelect(),
+    this.buildOrderBy()
+  );
+  console.log(query);
+  const [results] = await execute(query);
+  return results;
 };
 
 MySQLManager.deleteOne = async function deleteOne(values) {
   const query = this.buildDeleteCondition();
-  try {
-    const [results] = await execute(query, values);
-    console.log(results);
-    return results;
-  } catch (error) {
-    console.log(error);
-  }
+  const [results] = await execute(query, values);
+  console.log(results);
+  return results;
 };
 
 MySQLManager.deleteAll = async function deleteAll() {
   const query = this.buildDeleteAll();
-  try {
-    const [results] = await execute(query);
-    console.log(results);
-    return results;
-  } catch (error) {
-    console.log(error);
-  }
+  const [results] = await execute(query);
+  console.log(results);
+  return results;
 };
 
 MySQLManager.update = async function update(values) {
   const query = this.buildDeleteAll();
-  try {
-    const [results] = await execute(query, values);
-    console.log(results);
-    return results;
-  } catch (error) {
-    console.log(error);
-  }
+  const [results] = await execute(query, values);
+  console.log(results);
+  return results;
 };
 export { MySQLManager };
