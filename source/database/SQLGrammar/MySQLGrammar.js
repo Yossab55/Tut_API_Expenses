@@ -51,7 +51,6 @@ const MySQLGrammar = {
       query += where;
     }
     query += ";";
-    console.log(query);
     return query;
   },
   buildInsert: function buildInsertQuery() {
@@ -86,7 +85,6 @@ const MySQLGrammar = {
     return query;
   },
   buildOrderBy: function buildOrderBy() {
-    console.log(this.tableName, this.orderColumns);
     const isOrderColumnInFields = this.orderColumns.every((column) =>
       this.fields.includes(column)
     );

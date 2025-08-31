@@ -3,7 +3,6 @@ function tryCatchFunction(callback) {
     try {
       await callback(req, res, next);
     } catch (error) {
-      console.log(error);
       return next(error);
     }
   };
