@@ -19,13 +19,7 @@ UserModel.save = async function save(value) {
   };
   this.initial("Users", this.userFields);
   const result = await this.insert(value);
-  this.initial("Users", ["user_id"].concat(this.userFields), [
-    "user_email",
-    "=",
-    `'${user_email}'`,
-  ]);
-  const [rows] = await this.select();
-  return rows;
+  return await UserModel.getUserWith(["user_email", "=", `'${user_email}'`]);
 };
 
 UserModel.isUniqueEmail = async function isUniqueEmail(email) {
@@ -39,6 +33,13 @@ UserModel.isUniqueEmail = async function isUniqueEmail(email) {
 UserModel.getUser = async function getUser(id) {
   const user = await this.getOneUser(id);
   return user;
+};
+
+UserModel.getUserWith = async function getUserWith(filters) {
+  if (!filters) throw new Error(" you need filters to use this function");
+  this.initial("Users", ["user_id"].concat(this.userFields), filters);
+  const [rows] = await this.select();
+  return rows;
 };
 
 export { UserModel };

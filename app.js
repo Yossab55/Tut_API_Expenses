@@ -5,7 +5,7 @@ import "dotenv/config.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
-import { SignupRouter } from "./routers/SignupRouter.js";
+import { SignupRouter, LoginRouter } from "./routers/IndexRouter.js";
 import { ErrorHandel } from "./middlewares/ErrorsMiddleware.js";
 import { env } from "./utils/helpers.js";
 const app = express();
@@ -22,5 +22,6 @@ app.use(cookieParser());
 app.use(express.static("public"));
 
 app.use("/signup", SignupRouter);
+app.use("/login", LoginRouter);
 
 app.use(ErrorHandel);
