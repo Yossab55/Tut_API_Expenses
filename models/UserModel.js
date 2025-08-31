@@ -9,7 +9,6 @@ UserModel.userFields = ["user_email", "user_name", "password"];
 UserModel.save = async function save(value) {
   const { user_email, user_name, password } = value;
   if (await this.isUniqueEmail(user_email)) {
-    //todo create custom error
     throw new Error("this email already exists");
   }
   value = {
@@ -41,5 +40,34 @@ UserModel.getUserWith = async function getUserWith(filters) {
   const [rows] = await this.select();
   return rows;
 };
+UserModel.deleteUser = async function deleteUser(id) {
+  const filters = ["user_id", "=", `${id}`];
+  this.initial("Users", null, filters);
+  const result = await this.deleteOne();
+  console.log(result);
+};
 
+UserModel.updateUser = async function updateUser(data) {
+  const { user_email, user_name, password, id } = data;
+  if (user_email) {
+    if (await this.isUniqueEmail(user_email)) {
+      throw new Error("this email already exists");
+    }
+  }
+  const fields = [];
+  if (user_name) {
+    fields.push(user_email);
+  }
+  if (user_email) {
+    fields.push();
+  }
+  if (password) {
+    fields.push();
+  }
+  const filters = ["user_id", "=", id];
+  this.initial("Users", fields, filters);
+
+  const result = await this.update(fields);
+  return result;
+};
 export { UserModel };

@@ -30,7 +30,7 @@ MySQLManager.selectWithOrderBy = async function selectWithOrderBy() {
   return results;
 };
 
-MySQLManager.deleteOne = async function deleteOne(values) {
+MySQLManager.deleteOne = async function deleteOne() {
   const query = this.buildDeleteCondition();
   const [results] = await execute(query, values);
   return results;

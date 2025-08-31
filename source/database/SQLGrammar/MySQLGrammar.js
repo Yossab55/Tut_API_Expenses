@@ -38,7 +38,8 @@ const MySQLGrammar = {
   buildSelect: function buildSelect() {
     if (this.fields) {
       if (this.fields[0] == "*") {
-        if (this.fields.length != 1); //todo throw error!;
+        if (this.fields.length != 1);
+        throw new Error("you can't use * & columns together");
       }
     }
 
@@ -65,7 +66,7 @@ const MySQLGrammar = {
     return query;
   },
   buildDeleteCondition: function buildDeleteCondition() {
-    if (!this.filters); //todo throw error
+    if (!this.filters) throw new Error("you need filters to delete the user");
     const startPart = `DELETE FROM ${this.tableName}`;
     const wherePart = this.filters.join(" ");
     const query = `${startPart} ${wherePart};`;
@@ -77,7 +78,8 @@ const MySQLGrammar = {
     return query;
   },
   buildUpdate: function buildUpdate() {
-    if (!this.filters); //todo throw error
+    if (!this.filters)
+      throw new Error("you need filters to update whether you will update all");
     const startPart = `UPDATE FROM ${this.tableName}`;
     const setPart = this.fields.join(" = ?, ") + " = ?";
     const wherePart = this.filters.join(" ");
