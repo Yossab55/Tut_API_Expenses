@@ -4,7 +4,7 @@
  * MySQLManager to be better clean code and easy to scale in future
  */
 const procedures = {
-  getOneUser: "findUser",
+  getOneUser: "find_user",
   todayExpenses: "user_today_expenses",
 };
 

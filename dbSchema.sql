@@ -1,7 +1,7 @@
 USE tut_expenses_project;
 
 CREATE TABLE `Users` (
-  `user_id` integer PRIMARY KEY,
+  `user_id` integer AUTO_INCREMENT PRIMARY KEY ,
   `user_email` varchar(100) NOT NULL,
   `user_name` varchar(70) NOT NULL,
   `password` varchar(255) NOT NULL
@@ -15,7 +15,12 @@ CREATE TABLE `Expenses` (
   `user_id` integer
 );
 
-ALTER TABLE `Expenses` ADD CONSTRAINT `user_expenses_fk` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`);
+ALTER TABLE `Expenses`
+ADD CONSTRAINT `user_expenses_fk`
+FOREIGN KEY (`user_id`)
+REFERENCES `Users` (`user_id`)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
 
 
 DELIMITER $$

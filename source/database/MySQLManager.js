@@ -9,7 +9,7 @@ MySQLManager.insert = async function insert(values) {
   return results;
 };
 
-MySQLManager.getUser = async function getUser(id, values) {
+MySQLManager.getOneUser = async function getOneUser(id, values) {
   const query = this.buildGetUserProcedure(id);
   const [results] = await execute(query, values);
   return results;
