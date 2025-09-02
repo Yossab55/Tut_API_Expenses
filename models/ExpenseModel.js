@@ -102,8 +102,8 @@ ExpenseModel.deleteAllExpense = async function deleteExpense() {
   const [results] = await this.deleteAll();
   return results;
 };
-// @update
 
+// @update
 ExpenseModel.updateExpense = async function updateExpense(dataToUpdate) {
   const {
     expense_category,
@@ -124,4 +124,5 @@ ExpenseModel.updateExpense = async function updateExpense(dataToUpdate) {
   const [results] = await this.update(fields);
   return fields;
 };
+
 export { ExpenseModel };
