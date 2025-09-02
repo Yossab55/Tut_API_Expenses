@@ -11,8 +11,7 @@ const tableName = "Expenses";
 // req.user.id
 
 //@ create
-ExpenseModel.saveNewExpenses = async function saveNewExpenses(value) {
-  //todo add to values user id in the controller
+ExpenseModel.saveNewExpense = async function saveNewExpense(value) {
   this.initial(tableName, expenseFields);
   const { expense_category, expense_amount, expense_date, user_id } = value;
   value = {
@@ -22,7 +21,10 @@ ExpenseModel.saveNewExpenses = async function saveNewExpenses(value) {
     user_id,
   };
   const results = await this.insert(value);
-  return results;
+  const filters = ["user_id", "=", user_id];
+  this.initial(tableName, ["expense_id"].concat(expenseFields), filters);
+  const [rows] = await this.selectStatement();
+  return rows[0];
 };
 
 //@ Read
@@ -72,7 +74,7 @@ ExpenseModel.getLastPeriodExpensesGroupByCategories =
     return results;
   };
 
-ExpenseModel.todayTotalAmountGroupByCategory =
+ExpenseModel.getTodayTotalAmountGroupByCategory =
   async function todayTotalAmountGroupByCategory(userId) {
     const filters = [
       "user_id",
