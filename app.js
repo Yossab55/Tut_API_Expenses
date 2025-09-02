@@ -8,6 +8,7 @@ import morgan from "morgan";
 import {
   SignupRouter,
   LoginRouter,
+  LogoutRouter,
   UserRouter,
   ExpenseRouter,
 } from "./routers/IndexRouter.js";
@@ -28,6 +29,7 @@ app.use(express.static("public"));
 
 app.use("/signup", SignupRouter);
 app.use("/login", LoginRouter);
+app.use("/logout", LogoutRouter);
 app.use("/user", UserRouter);
 app.use("/expense", ExpenseRouter);
 
