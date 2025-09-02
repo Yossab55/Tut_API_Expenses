@@ -53,3 +53,12 @@ function stringBinarySearch(list, item) {
   return undefined;
 }
 export { stringBinarySearch };
+
+function fieldsToChickUndefined(fieldsToChick) {
+  const fields = [];
+  fieldsToChick.forEach((field) => {
+    if (field) fields.push(field);
+  });
+  return fields;
+}
+export { fieldsToChickUndefined };

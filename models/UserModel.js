@@ -1,5 +1,8 @@
 import { MySQLManager } from "../source/database/MySQLManager.js";
-import { stringBinarySearch } from "../utils/helpers.js";
+import {
+  stringBinarySearch,
+  fieldsToChickUndefined,
+} from "../utils/helpers.js";
 import { Bcrypt } from "../source/interface/bcrypt.js";
 
 const UserModel = Object.create(MySQLManager);
@@ -54,16 +57,8 @@ UserModel.updateUser = async function updateUser(data) {
       throw new Error("this email already exists");
     }
   }
-  const fields = [];
-  if (user_name) {
-    fields.push(user_email);
-  }
-  if (user_email) {
-    fields.push();
-  }
-  if (password) {
-    fields.push();
-  }
+  const fieldsToChick = [user_email, user_name, password];
+  const fields = fieldsToChickUndefined(fieldsToChick);
   const filters = ["user_id", "=", id];
   this.initial("Users", fields, filters);
 
