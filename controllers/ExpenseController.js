@@ -5,12 +5,14 @@ import {
 } from "../source/validation/schema/ExpenseSchema.js";
 
 const ExpenseController = {
-  getExpenseId: function getExpenseId(req, res, next) {
-    const expense_id = req.params.id;
-    req.expense.expense_id = expense_id;
-    next();
+  getExpense: function getExpense(req, res) {
+    const urlQuery = req.query;
+    if (!urlQuery.length) return this.getAllTodayExpense;
+    if (urlQuery.cat) return this.getLastPeriodExpenseGroupByCategory;
+    if (urlQuery.total) return this.getTotalTodayAmount;
+    return this.getLastPeriodExpense;
   },
-  getAllTodayExpense: async function getAllTodayExpense(req, res, next) {
+  getAllTodayExpense: async function getAllTodayExpense(req, res) {
     const userId = req.user.id;
     const [rows] = await ExpenseModel.getTodayExpenses(userId);
     res.status(200).send(rows);
@@ -51,7 +53,7 @@ const ExpenseController = {
     res.status(200).send(expenseData);
   },
   deleteExpense: async function deleteExpense(req, res) {
-    const expenseId = req.expense.id;
+    const expenseId = req.params.expenseId;
     const [rows] = await ExpenseModel.deleteExpense(expenseId);
     res.status(200).send(rows);
   },
@@ -61,7 +63,7 @@ const ExpenseController = {
   },
   updateExpense: async function updateExpense(req, res) {
     const dataToUpdate = req.body;
-    const expenseId = req.expense.id;
+    const expenseId = req.params.expenseId;
     const { error } = expenseUpdateValidator(dataToUpdate);
     if (error) throw new Error("no data to update");
     dataToUpdate.expense_id = expenseId;

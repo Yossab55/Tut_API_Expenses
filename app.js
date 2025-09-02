@@ -9,6 +9,7 @@ import {
   SignupRouter,
   LoginRouter,
   UserRouter,
+  ExpenseRouter,
 } from "./routers/IndexRouter.js";
 import { ErrorHandel } from "./middlewares/ErrorsMiddleware.js";
 import { env } from "./utils/helpers.js";
@@ -28,5 +29,6 @@ app.use(express.static("public"));
 app.use("/signup", SignupRouter);
 app.use("/login", LoginRouter);
 app.use("/user", UserRouter);
+app.use("/expense", ExpenseRouter);
 
 app.use(ErrorHandel);
