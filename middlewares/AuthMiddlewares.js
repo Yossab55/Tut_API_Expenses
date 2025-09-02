@@ -1,5 +1,6 @@
 //+ in the name of cross
 import { JWT } from "../source/interface/JWT.js";
+
 const AuthMiddlewares = {
   requiredAuth: async function requiredAuth(req, res, next) {
     const token = req.cookies.token;
@@ -7,9 +8,8 @@ const AuthMiddlewares = {
       const tokenDecoded = await JWT.verifyToken(token, JWT_SECRET);
       req.user.id = tokenDecoded.id;
       return next();
-    } else; //todo throw error
-
-    //todo throw error;
+    }
+    throw new Error("Please Login");
   },
 
   isUserLoggedIn: async function isUserLoggedIn(req, res, next) {

@@ -34,48 +34,12 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE user_today_expenses(in user_param_id INT)
+CREATE PROCEDURE user_today_expenses(IN user_param_id INT)
 BEGIN
   SELECT *
   FROM Expenses
   WHERE user_id = user_param_id 
-  && DATE(expense_date) = CURDATE();
+  AND
+  DATE(expense_date) = CURDATE();
 END $$
 DELIMITER ;
-
-/* 
-! see if you can make it logic better in node proejct or not
-
-  DELIMITER $$
-  CREATE PROCEDURE user_last_period_expenses(IN `user_param_id` INT, IN `expense_last_period` datetime)
-  BEGIN
-    SELECT *
-    FROM Expenses
-    WHERE user_id = `user_param_id` AND 
-    expense_date between `expense_last_period` AND NOW()
-    ORDER BY expense_date;
-  END $$
-  DELIMITER ;
-
-  DELIMITER $$
-  CREATE PROCEDURE user_last_period_expenses_group_by_catygory(IN `user_param_id` INT, IN `expense_last_period` datetime)
-  BEGIN
-    SELECT expense_category, SUM(expense_amount) AS 'total_amout'
-    FROM Expenses
-    WHERE user_id = `user_param_id` AND 
-    expense_date between `expense_last_period` AND NOW()
-    GROUP BY expense_category;
-  END $$
-  DELIMITER ;
-
-
-  DELIMITER $$
-  CREATE PROCEDURE user_todya_expenses_group_by_category(IN `user_param_id` INT)
-  BEGIN
-    SELECT expense_category, SUM(expense_amount) AS 'total_amout'
-    FROM Expenses
-    WHERE user_id = `user_param_id` AND expense_date = NOW()
-    GROUP BY expense_category;
-  END $$
-  DELIMITER ; 
-*/

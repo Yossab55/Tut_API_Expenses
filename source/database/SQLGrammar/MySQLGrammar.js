@@ -13,28 +13,35 @@ const MySQLGrammar = {
   fields: null,
   filters: null,
   orderColumns: null,
+  groupByColumns: null,
   havingFilters: null,
+
   initial: function initialParts(
     tableName,
     fields,
     filters,
     orderColumns,
-    havingFilters
+    havingFilters,
+    groupByColumns
   ) {
     this.tableName = tableName;
     this.fields = fields;
     this.filters = filters;
     this.orderColumns = orderColumns;
+    this.groupByColumns = groupByColumns;
     this.havingFilters = havingFilters;
   },
+
   buildGetUserProcedure: function buildGetUserProcedure(id) {
     return `CALL ${procedures.getOneUser}(${id});`;
   },
+
   buildGetTodayExpensesProcedure: function buildGetTodayExpensesProcedure(
     userId
   ) {
     return `CALL ${procedures.todayExpenses}(${userId});`;
   },
+
   buildSelect: function buildSelect() {
     if (this.fields) {
       if (this.fields[0] == "*") {
@@ -54,6 +61,7 @@ const MySQLGrammar = {
     query += ";";
     return query;
   },
+
   buildInsert: function buildInsertQuery() {
     const startPart = `INSERT INTO ${this.tableName}`;
     const fieldsToInsert = this.fields.join(", ");
@@ -65,18 +73,21 @@ const MySQLGrammar = {
     const query = `${startPart} (${fieldsToInsert}) VALUES (${valuesHolder});`;
     return query;
   },
+
   buildDeleteCondition: function buildDeleteCondition() {
-    if (!this.filters) throw new Error("you need filters to delete the user");
+    if (!this.filters) throw new Error("you need filters to delete row");
     const startPart = `DELETE FROM ${this.tableName}`;
     const wherePart = this.filters.join(" ");
     const query = `${startPart} ${wherePart};`;
     return query;
   },
+
   buildDeleteAll: function buildDeleteAll() {
     const startPart = `DELETE FROM ${this.tableName}`;
     const query = `${startPart};`;
     return query;
   },
+
   buildUpdate: function buildUpdate() {
     if (!this.filters)
       throw new Error("you need filters to update whether you will update all");
@@ -86,6 +97,7 @@ const MySQLGrammar = {
     const query = `${startPart} SET ${setPart} ${wherePart};`;
     return query;
   },
+
   buildOrderBy: function buildOrderBy() {
     const isOrderColumnInFields = this.orderColumns.every((column) =>
       this.fields.includes(column)
@@ -94,6 +106,13 @@ const MySQLGrammar = {
       throw new Error("You're order column is not correct");
     const orderPart = `ORDER BY ${this.orderColumns.join(", ")}`;
     let query = `${orderPart}`;
+    query += ";";
+    return query;
+  },
+
+  buildGroupBy: function buildGroupBy() {
+    const GroupPart = `GROUP BY ${this.groupByColumns.join(", ")}`;
+    let query = GroupPart;
     if (this.havingFilters) {
       const havingPart = ` HAVING ${this.havingFilters.join(" ")}`;
       query += havingPart;
@@ -101,6 +120,7 @@ const MySQLGrammar = {
     query += ";";
     return query;
   },
+
   addMultiplyQueriesTogether: function addMultiplyQueriesTogether(...queries) {
     const length = queries.length;
     for (let i = 0; i < length - 1; i++) {
