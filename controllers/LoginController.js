@@ -3,7 +3,7 @@ import { JWT } from "../source/interface/JWT.js";
 import { Bcrypt } from "../source/interface/bcrypt.js";
 import { UserModel } from "../models/UserModel.js";
 import { AppError } from "../source/error/AppError.js";
-
+import { GOOD_RESPONSE } from "../utils/constants/ResponseCode.js";
 const LoginController = {
   login: async function login(req, res, next) {
     const data = req.body;
@@ -21,7 +21,7 @@ const LoginController = {
     const payload = { id: user.user_id };
     const token = await JWT.createToken(payload);
     JWT.createCookie(res, token);
-    res.status(200).send(user);
+    res.status(GOOD_RESPONSE).send(user);
   },
 };
 

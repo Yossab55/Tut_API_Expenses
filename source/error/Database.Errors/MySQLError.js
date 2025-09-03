@@ -5,7 +5,7 @@ const MySQLError = Object.create(BaseError);
 MySQLError.createErrorAndSend = function createErrorAndSend(res, error) {
   const errorName = "Wrong query with DB";
   const errorMessage = error.sqlMessage;
-  this.init(errorMessage, errorName, 400);
+  this.init(errorMessage, errorName);
   return this.sendResponse(res);
 };
 

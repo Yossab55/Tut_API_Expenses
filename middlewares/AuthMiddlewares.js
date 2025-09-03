@@ -1,6 +1,7 @@
 //+ in the name of cross
 import { JWT } from "../source/interface/JWT.js";
 import { AppError } from "../source/error/AppError.js";
+import { UNAUTHORIZED } from "../utils/constants/ResponseCode.js";
 
 async function requiredAuth(req, res, next) {
   const token = req.cookies.token;
@@ -9,7 +10,7 @@ async function requiredAuth(req, res, next) {
     req.user.id = tokenDecoded.id;
     return next();
   }
-  AppError.setUp("user is nlt authenticated");
+  AppError.setUp("user is nlt authenticated", UNAUTHORIZED);
   throw AppError;
 }
 export { requiredAuth };

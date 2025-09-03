@@ -1,14 +1,15 @@
 import { BaseError } from "./BaseError.js";
+import { BAD_REQUEST } from "../../utils/constants/ResponseCode.js";
 
 const AppError = Object.create(BaseError);
 
-AppError.setUp = function setUp(message) {
+AppError.setUp = function setUp(message, responseCode) {
   const name = "AppError";
   const message = message;
-  const response = 400;
-  this.init(name, message, response);
+  const resCode = responseCode || BAD_REQUEST;
+  this.init(name, message, resCode);
 };
-AppError.send = function send(res) {
+AppError.sendRes = function sendRes(res) {
   return this.sendResponse(res);
 };
 

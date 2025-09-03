@@ -7,8 +7,7 @@ ValidationError.createErrorAndSend = function createErrorAndSend(res, error) {
   const message = [
     ...error.details.map((errorDetails) => errorDetails.message),
   ];
-  const ResponseCode = 400;
-  this.init(message, name, ResponseCode);
+  this.init(message, name);
   return this.sendResponse(res);
 };
 

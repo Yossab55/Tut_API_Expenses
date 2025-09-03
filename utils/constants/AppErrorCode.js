@@ -1,3 +1,0 @@
-const AppErrorCode = {};
-
-export { AppErrorCode };
