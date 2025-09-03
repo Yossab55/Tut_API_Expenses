@@ -1,5 +1,5 @@
 import express from "express";
-import { ExpenseController } from "../controllers/ExpenseController";
+import { ExpenseController } from "../controllers/ExpenseController.js";
 import { tryCatchFunction } from "../middlewares/TryCatchAbstraction.js";
 import { requiredAuth } from "../middlewares/AuthMiddlewares.js";
 

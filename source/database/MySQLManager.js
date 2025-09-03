@@ -49,7 +49,7 @@ MySQLManager.deleteAll = async function deleteAll() {
 };
 
 MySQLManager.update = async function update(values) {
-  const query = this.buildDeleteAll();
+  const query = this.buildUpdate();
   const [results] = await execute(query, values);
   return results;
 };
