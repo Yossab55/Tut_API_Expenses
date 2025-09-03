@@ -1,4 +1,4 @@
-import { MySQLGrammar } from "./MySQLGrammar";
+import { MySQLGrammar } from "./MySQLGrammar.js";
 
 const MySQLMapping = {
   select: MySQLGrammar.buildSelect,

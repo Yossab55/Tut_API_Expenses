@@ -5,6 +5,7 @@ import "dotenv/config.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import { morganOptions } from "./source/interface/morgan.js";
 import {
   SignupRouter,
   LoginRouter,
@@ -21,7 +22,7 @@ app.listen(port, () => {
   console.log(`server running on port: ${port}`);
 });
 
-app.use(morgan("dev"));
+app.use(morgan("custom", morganOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

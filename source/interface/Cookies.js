@@ -1,3 +1,5 @@
+import { env } from "../../utils/helpers.js";
+
 const cookieOptions = {
   httpOnly: true,
   maxAge: env("EXPIRES_IN"),

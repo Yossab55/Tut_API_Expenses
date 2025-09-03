@@ -3,7 +3,7 @@ import { BAD_REQUEST } from "../../utils/constants/ResponseCode.js";
 
 function AppError(message, responseCode = BAD_REQUEST) {
   const error = Object.create(BaseError);
-  error.init("AppError", message, responseCode);
+  error.init(message, "AppError", responseCode);
   return error;
 }
 

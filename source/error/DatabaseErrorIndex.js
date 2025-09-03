@@ -1,3 +1,3 @@
-import { MySQLError } from "./Database.Errors/MySQLError";
+import { MySQLError } from "./Database.Errors/MySQLError.js";
 
 export { MySQLError };

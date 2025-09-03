@@ -20,7 +20,7 @@ function ErrorHandel(error, req, res, next) {
   if (Object.hasOwn(error, "errno") && Object.hasOwn(error, "sqlState"))
     return MySQLError.createErrorAndSend(res, error);
 
-  ServerError.createErrorAndSend(res);
+  return ServerError.createErrorAndSend(res);
 }
 
 export { ErrorHandel };

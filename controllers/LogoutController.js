@@ -1,5 +1,5 @@
-import { deleteCookie } from "../source/interface/Cookies";
-import { GOOD_RESPONSE } from "../utils/constants/ResponseCode";
+import { deleteCookie } from "../source/interface/Cookies.js";
+import { GOOD_RESPONSE } from "../utils/constants/ResponseCode.js";
 const LogoutController = {
   logout: function logout(req, res) {
     deleteCookie(res);

@@ -14,7 +14,7 @@ const BaseError = {
     };
   },
   sendResponse: function sendResponse(res) {
-    return res.status(this.responseCode).send(this.createErrorObjectToSend);
+    return res.status(this.responseCode).send(this.createErrorObjectToSend());
   },
 };
 

@@ -3,7 +3,7 @@
  * MySQLGrammar to just build the query separated from the
  * MySQLManager to be better clean code and easy to scale in future
  */
-import { AppError } from "../../error/AppError";
+import { AppError } from "../../error/AppError.js";
 
 const procedures = {
   getOneUser: "find_user",
