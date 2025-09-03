@@ -3,6 +3,8 @@
  * MySQLGrammar to just build the query separated from the
  * MySQLManager to be better clean code and easy to scale in future
  */
+import { AppError } from "../../error/AppError";
+
 const procedures = {
   getOneUser: "find_user",
   todayExpenses: "user_today_expenses",
@@ -45,8 +47,11 @@ const MySQLGrammar = {
   buildSelect: function buildSelect() {
     if (this.fields) {
       if (this.fields[0] == "*") {
-        if (this.fields.length != 1);
-        throw new Error("you can't use * & columns together");
+        if (this.fields.length != 1) {
+          AppError.setUp("You can't use * and columns together");
+
+          throw AppError;
+        }
       }
     }
 
@@ -75,7 +80,10 @@ const MySQLGrammar = {
   },
 
   buildDeleteCondition: function buildDeleteCondition() {
-    if (!this.filters) throw new Error("you need filters to delete row");
+    if (!this.filters) {
+      AppError.setUp("You need filters to delete row");
+      throw AppError;
+    }
     const startPart = `DELETE FROM ${this.tableName}`;
     const wherePart = this.filters.join(" ");
     const query = `${startPart} ${wherePart};`;
@@ -89,8 +97,10 @@ const MySQLGrammar = {
   },
 
   buildUpdate: function buildUpdate() {
-    if (!this.filters)
-      throw new Error("you need filters to update whether you will update all");
+    if (!this.filters) {
+      AppError.setUp("You need filters to update");
+      throw AppError;
+    }
     const startPart = `UPDATE FROM ${this.tableName}`;
     const setPart = this.fields.join(" = ?, ") + " = ?";
     const wherePart = this.filters.join(" ");
@@ -102,8 +112,11 @@ const MySQLGrammar = {
     const isOrderColumnInFields = this.orderColumns.every((column) =>
       this.fields.includes(column)
     );
-    if (!isOrderColumnInFields)
-      throw new Error("You're order column is not correct");
+    if (!isOrderColumnInFields) {
+      AppError.setUp("You're order column doesn't exists in selected fields");
+
+      throw AppError;
+    }
     const orderPart = `ORDER BY ${this.orderColumns.join(", ")}`;
     let query = `${orderPart}`;
     query += ";";

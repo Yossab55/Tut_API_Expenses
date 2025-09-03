@@ -65,7 +65,7 @@ const ExpenseController = {
     const dataToUpdate = req.body;
     const expenseId = req.params.expenseId;
     const { error } = expenseUpdateValidator(dataToUpdate);
-    if (error) throw new Error("no data to update");
+    if (error) throw error;
     dataToUpdate.expense_id = expenseId;
     const [rows] = await ExpenseModel.updateExpense(dataToUpdate);
     res.status(200).send(rows);

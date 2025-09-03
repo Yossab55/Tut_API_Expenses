@@ -1,6 +1,8 @@
 import { execute } from "./DBConnection.js";
 import { MySQLGrammar } from "./SQLGrammar/MySQLGrammar.js";
 import { MySQLMapping } from "./SQLGrammar/MySQLMapping.js";
+import { AppError } from "../error/AppError.js";
+
 const MySQLManager = Object.create(MySQLGrammar);
 
 MySQLManager.insert = async function insert(values) {
@@ -53,8 +55,11 @@ MySQLManager.update = async function update(values) {
 };
 MySQLGrammar.customQuery = async function customQuery(values, ...partsToBuild) {
   const queries = partsToBuild.forEach((query) => {
-    if (!MySQLMapping[query])
-      throw new Error("there is no such field like that");
+    if (!MySQLMapping[query]) {
+      AppError.setUp("there is no such query like that in MySQL");
+
+      throw AppError;
+    }
     return MySQLMapping[query].call(this, values);
   });
   const query = this.addMultiplyQueriesTogether(...queries);
