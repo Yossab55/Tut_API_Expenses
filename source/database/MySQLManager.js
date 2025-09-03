@@ -56,9 +56,7 @@ MySQLManager.update = async function update(values) {
 MySQLGrammar.customQuery = async function customQuery(values, ...partsToBuild) {
   const queries = partsToBuild.forEach((query) => {
     if (!MySQLMapping[query]) {
-      AppError.setUp("there is no such query like that in MySQL");
-
-      throw AppError;
+      throw AppError("there is no such query like that in MySQL");
     }
     return MySQLMapping[query].call(this, values);
   });

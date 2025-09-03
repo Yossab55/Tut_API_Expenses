@@ -10,13 +10,11 @@ const LoginController = {
     const filters = ["user_email", "=", `'${data.user_email}'`];
     const user = await UserModel.getUserWith(filters);
     if (!user) {
-      AppError.setUp("User not found please sign up");
-      throw AppError;
+      throw AppError("User not found please sign up");
     }
     const check = await Bcrypt.compareBoth(data.password, user.password);
     if (!check) {
-      AppError.setUp("Wrong password please try again");
-      throw AppError;
+      throw AppError("Wrong password please try again");
     }
     const payload = { id: user.user_id };
     const token = await JWT.createToken(payload);

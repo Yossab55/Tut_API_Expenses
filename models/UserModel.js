@@ -13,9 +13,7 @@ UserModel.userFields = ["user_email", "user_name", "password"];
 UserModel.save = async function save(value) {
   const { user_email, user_name, password } = value;
   if (await this.isUniqueEmail(user_email)) {
-    AppError.setUp("This Email is already exists");
-
-    throw AppError;
+    throw AppError("This Email is already exists");
   }
   value = {
     user_email,
@@ -42,9 +40,7 @@ UserModel.getUser = async function getUser(id) {
 
 UserModel.getUserWith = async function getUserWith(filters) {
   if (!filters) {
-    AppError.setUp("You need filters to use this function");
-
-    throw AppError;
+    throw AppError("You need filters to use this function");
   }
   this.initial("Users", ["user_id"].concat(this.userFields), filters);
   const [rows] = await this.select();
@@ -61,9 +57,7 @@ UserModel.updateUser = async function updateUser(data) {
   const { user_email, user_name, password, id } = data;
   if (user_email) {
     if (await this.isUniqueEmail(user_email)) {
-      AppError.setUp("This Email already exists");
-
-      throw AppError;
+      throw AppError("This Email already exists");
     }
   }
   const fieldsToChick = [user_email, user_name, password];

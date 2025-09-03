@@ -8,10 +8,11 @@ import { GOOD_RESPONSE } from "../utils/constants/ResponseCode.js";
 const ExpenseController = {
   getExpense: function getExpense(req, res) {
     const urlQuery = req.query;
-    if (!urlQuery.length) return this.getAllTodayExpense;
-    if (urlQuery.cat) return this.getLastPeriodExpenseGroupByCategory;
-    if (urlQuery.total) return this.getTotalTodayAmount;
-    return this.getLastPeriodExpense;
+    if (Object.keys(urlQuery).length === 0)
+      return this.getAllTodayExpense(req, res);
+    if (urlQuery.cat) return this.getLastPeriodExpenseGroupByCategory(req, res);
+    if (urlQuery.total) return this.getTotalTodayAmount(req, res);
+    return this.getLastPeriodExpense(req, res);
   },
   getAllTodayExpense: async function getAllTodayExpense(req, res) {
     const userId = req.user.id;

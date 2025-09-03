@@ -7,11 +7,10 @@ async function requiredAuth(req, res, next) {
   const token = req.cookies.token;
   if (token) {
     const tokenDecoded = await JWT.verifyToken(token, JWT_SECRET);
-    req.user.id = tokenDecoded.id;
+    req.user = { id: tokenDecoded.id };
     return next();
   }
-  AppError.setUp("user is nlt authenticated", UNAUTHORIZED);
-  throw AppError;
+  throw AppError("user is nlt authenticated", UNAUTHORIZED);
 }
 export { requiredAuth };
 async function isUserLoggedIn(req, res, next) {
@@ -19,14 +18,14 @@ async function isUserLoggedIn(req, res, next) {
   if (token) {
     try {
       const tokenDecoded = await verify(token, JWT_SECRET);
-      req.locals.userId = tokenDecoded.id;
+      req.locals.user = { id: tokenDecoded.id };
       return next();
     } catch (error) {
-      req.locals.userId = null;
+      req.locals.user = null;
       return next();
     }
   } else {
-    req.locals.userId = null;
+    req.locals.user = null;
     return next();
   }
 }

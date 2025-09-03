@@ -48,9 +48,7 @@ const MySQLGrammar = {
     if (this.fields) {
       if (this.fields[0] == "*") {
         if (this.fields.length != 1) {
-          AppError.setUp("You can't use * and columns together");
-
-          throw AppError;
+          throw AppError("You can't use * and columns together");
         }
       }
     }
@@ -81,8 +79,7 @@ const MySQLGrammar = {
 
   buildDeleteCondition: function buildDeleteCondition() {
     if (!this.filters) {
-      AppError.setUp("You need filters to delete row");
-      throw AppError;
+      throw AppError("You need filters to delete row");
     }
     const startPart = `DELETE FROM ${this.tableName}`;
     const wherePart = this.filters.join(" ");
@@ -98,8 +95,7 @@ const MySQLGrammar = {
 
   buildUpdate: function buildUpdate() {
     if (!this.filters) {
-      AppError.setUp("You need filters to update");
-      throw AppError;
+      throw AppError("You need filters to update");
     }
     const startPart = `UPDATE FROM ${this.tableName}`;
     const setPart = this.fields.join(" = ?, ") + " = ?";
@@ -113,9 +109,7 @@ const MySQLGrammar = {
       this.fields.includes(column)
     );
     if (!isOrderColumnInFields) {
-      AppError.setUp("You're order column doesn't exists in selected fields");
-
-      throw AppError;
+      throw AppError("You're order column doesn't exists in selected fields");
     }
     const orderPart = `ORDER BY ${this.orderColumns.join(", ")}`;
     let query = `${orderPart}`;
