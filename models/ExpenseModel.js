@@ -120,7 +120,7 @@ ExpenseModel.updateExpense = async function updateExpense(dataToUpdate) {
     expense_date,
     user_id,
   ];
-  const fields = fieldsToChickUndefined(fieldsToChick);
+  const fields = fieldsToCheckUndefined(fieldsToChick);
   const filters = ["expense_id", "=", expense_id];
   this.initial("Expense", fields, filters);
   const [results] = await this.update(fields);

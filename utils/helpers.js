@@ -54,11 +54,11 @@ function stringBinarySearch(list, item) {
 }
 export { stringBinarySearch };
 
-function fieldsToChickUndefined(fieldsToChick) {
+function fieldsToCheckUndefined(fieldsToChick) {
   const fields = [];
   fieldsToChick.forEach((field) => {
     if (field) fields.push(field);
   });
   return fields;
 }
-export { fieldsToChickUndefined };
+export { fieldsToCheckUndefined };

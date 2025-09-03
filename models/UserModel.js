@@ -1,7 +1,7 @@
 import { MySQLManager } from "../source/database/MySQLManager.js";
 import {
   stringBinarySearch,
-  fieldsToChickUndefined,
+  fieldsToCheckUndefined,
 } from "../utils/helpers.js";
 import { Bcrypt } from "../source/interface/bcrypt.js";
 import { AppError } from "../source/error/AppError.js";
@@ -61,7 +61,7 @@ UserModel.updateUser = async function updateUser(data) {
     }
   }
   const fieldsToChick = [user_email, user_name, password];
-  const fields = fieldsToChickUndefined(fieldsToChick);
+  const fields = fieldsToCheckUndefined(fieldsToChick);
   const filters = ["user_id", "=", id];
   this.initial("Users", fields, filters);
 
