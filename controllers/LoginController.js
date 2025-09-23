@@ -1,5 +1,6 @@
 //+ in the name of Cross
 import { JWT } from "../source/interface/JWT.js";
+import { createCookie } from "../source/interface/Cookies.js";
 import { Bcrypt } from "../source/interface/bcrypt.js";
 import { UserModel } from "../models/UserModel.js";
 import { AppError } from "../source/error/AppError.js";
@@ -18,7 +19,7 @@ const LoginController = {
     }
     const payload = { id: user.user_id };
     const token = await JWT.createToken(payload);
-    JWT.createCookie(res, token);
+    createCookie(res, token);
     res.status(GOOD_RESPONSE).send(user);
   },
 };
