@@ -56,8 +56,8 @@ export { stringBinarySearch };
 
 function fieldsToCheckUndefined(fieldsToChick) {
   const fields = [];
-  fieldsToChick.forEach((field) => {
-    if (field) fields.push(field);
+  Object.keys(fieldsToChick).forEach((field) => {
+    if (fieldsToChick[field]) fields.push(field);
   });
   return fields;
 }

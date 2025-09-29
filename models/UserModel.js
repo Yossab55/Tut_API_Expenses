@@ -47,10 +47,10 @@ UserModel.getUserWith = async function getUserWith(filters) {
   return rows;
 };
 UserModel.deleteUser = async function deleteUser(id) {
-  const filters = ["user_id", "=", `${id}`];
+  const filters = ["user_id", "=", `'${id}'`];
   this.initial("Users", null, filters);
   const result = await this.deleteOne();
-  console.log(result);
+  return result;
 };
 
 UserModel.updateUser = async function updateUser(data) {
@@ -60,9 +60,9 @@ UserModel.updateUser = async function updateUser(data) {
       throw AppError("This Email already exists");
     }
   }
-  const fieldsToChick = [user_email, user_name, password];
+  const fieldsToChick = { user_email, user_name, password };
   const fields = fieldsToCheckUndefined(fieldsToChick);
-  const filters = ["user_id", "=", id];
+  const filters = ["user_id", "=", `'${id}'`];
   this.initial("Users", fields, filters);
 
   const result = await this.update(fields);

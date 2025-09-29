@@ -3,7 +3,7 @@ import { GOOD_RESPONSE } from "../utils/constants/ResponseCode.js";
 const LogoutController = {
   logout: function logout(req, res) {
     deleteCookie(res);
-    res.status(GOOD_RESPONSE).send("user logged out");
+    res.status(GOOD_RESPONSE).send({ message: "user logged out" });
   },
 };
 

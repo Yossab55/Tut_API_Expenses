@@ -83,7 +83,7 @@ const MySQLGrammar = {
     }
     const startPart = `DELETE FROM ${this.tableName}`;
     const wherePart = this.filters.join(" ");
-    const query = `${startPart} ${wherePart};`;
+    const query = `${startPart} WHERE ${wherePart};`;
     return query;
   },
 
@@ -97,10 +97,11 @@ const MySQLGrammar = {
     if (!this.filters) {
       throw AppError("You need filters to update");
     }
-    const startPart = `UPDATE FROM ${this.tableName}`;
+    const startPart = `UPDATE ${this.tableName}`;
     const setPart = this.fields.join(" = ?, ") + " = ?";
     const wherePart = this.filters.join(" ");
-    const query = `${startPart} SET ${setPart} ${wherePart};`;
+    const query = `${startPart} SET ${setPart} WHERE ${wherePart};`;
+    console.log(query);
     return query;
   },
 

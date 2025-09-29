@@ -10,14 +10,15 @@ const ExpenseController = {
     const urlQuery = req.query;
     if (Object.keys(urlQuery).length === 0)
       return this.getAllTodayExpense(req, res);
-    if (urlQuery.cat) return this.getLastPeriodExpenseGroupByCategory(req, res);
+    if (urlQuery.category)
+      return this.getLastPeriodExpenseGroupByCategory(req, res);
     if (urlQuery.total) return this.getTotalTodayAmount(req, res);
     return this.getLastPeriodExpense(req, res);
   },
   getAllTodayExpense: async function getAllTodayExpense(req, res) {
     const userId = req.user.id;
     const [rows] = await ExpenseModel.getTodayExpenses(userId);
-    res.status(GOOD_RESPONSE).send(rows);
+    res.status(GOOD_RESPONSE).send({ data: rows });
   },
   getLastPeriodExpense: async function getLastPeriodExpense(req, res) {
     const { last_period } = req.body;
@@ -26,7 +27,7 @@ const ExpenseController = {
       userId,
       last_period
     );
-    res.status(GOOD_RESPONSE).send(rows);
+    res.status(GOOD_RESPONSE).send({ data: rows });
   },
   getLastPeriodExpenseGroupByCategory:
     async function getLastPeriodExpenseGroupByCategory(req, res) {
@@ -36,14 +37,14 @@ const ExpenseController = {
         userId,
         last_period
       );
-      res.status(GOOD_RESPONSE).send(rows);
+      res.status(GOOD_RESPONSE).send({ data: rows });
     },
   getTotalTodayAmount: async function getTotalTodayAmount(req, res) {
     const userId = req.user.id;
     const [rows] = await ExpenseModel.getTodayTotalAmountGroupByCategory(
       userId
     );
-    res.status(GOOD_RESPONSE).send(rows);
+    res.status(GOOD_RESPONSE).send({ data: rows });
   },
   saveNewExpense: async function saveNewExpense(req, res) {
     const data = req.body;

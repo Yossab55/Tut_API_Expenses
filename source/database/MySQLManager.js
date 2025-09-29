@@ -13,8 +13,9 @@ MySQLManager.insert = async function insert(values) {
 
 MySQLManager.getOneUser = async function getOneUser(id, values) {
   const query = this.buildGetUserProcedure(id);
-  const [results] = await execute(query, values);
-  return results;
+  console.log(query);
+  const results = await execute(query, values);
+  return results[0][0][0];
 };
 MySQLManager.todayExpenses = async function todayExpenses(id, values) {
   const query = this.buildGetTodayExpensesProcedure(id);
