@@ -3,15 +3,15 @@ import { getCurrentDate } from "../../../utils/helpers.js";
 
 const ExpenseSchema = Joi.createObject({
   expense_category: Joi.between(2, 70).required(),
-  expense_amount: Joi.between(5, 70).required(),
+  expense_amount: Joi.number().required(),
   expense_date: Joi.date().default(getCurrentDate()),
   user_id: Joi.number().required(),
 });
 
 const ExpenseUpdateSchema = Joi.createObject({
   expense_category: Joi.between(2, 70),
-  expense_amount: Joi.between(5, 70),
-  expense_date: Joi.number(),
+  expense_amount: Joi.number(),
+  expense_date: Joi.date(),
   user_id: Joi.number(),
 }).min(1);
 

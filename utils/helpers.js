@@ -26,6 +26,20 @@ function getCurrentDate() {
 
 export { getCurrentDate };
 
+function getDateInMySQLStanders(dateString) {
+  /**
+   * because JS date format defers from MySQL date format
+   * so I'm modifying it to fit the validation
+   */
+  if (!dateString) return undefined;
+  const date = new Date(dateString);
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${
+    date.toTimeString().split(" ")[0]
+  }`;
+}
+
+export { getDateInMySQLStanders };
+
 function stringBinarySearch(list, item) {
   if (list.length == 0) return undefined;
   if (list.length == 1) {

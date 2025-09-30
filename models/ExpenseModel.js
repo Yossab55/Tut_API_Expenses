@@ -1,4 +1,9 @@
 import { MySQLManager } from "../source/database/MySQLManager.js";
+import {
+  getCurrentDate,
+  getDateInMySQLStanders,
+  fieldsToCheckUndefined,
+} from "../utils/helpers.js";
 
 const ExpenseModel = Object.create(MySQLManager);
 const expenseFields = [
@@ -17,13 +22,21 @@ ExpenseModel.saveNewExpense = async function saveNewExpense(value) {
   value = {
     expense_category,
     expense_amount,
-    expense_date,
+    expense_date: [getDateInMySQLStanders(expense_date)],
     user_id,
   };
-  const results = await this.insert(value);
-  const filters = ["user_id", "=", user_id];
+  const insertId = await this.insert(value);
+  const filters = [
+    "user_id",
+    "=",
+    user_id,
+    "AND",
+    "expense_id",
+    "=",
+    `'${insertId}'`,
+  ];
   this.initial(tableName, ["expense_id"].concat(expenseFields), filters);
-  const [rows] = await this.selectStatement();
+  const rows = await this.select();
   return rows[0];
 };
 
@@ -50,27 +63,39 @@ ExpenseModel.getLastPeriodExpenses = async function getLastPeriodExpenses(
   ];
   const orderColumns = ["expense_date"];
   this.initial(tableName, expenseFields, filters, orderColumns);
-  const [results] = await this.selectWithOrderBy();
+  const results = await this.selectWithOrderBy();
   return results;
 };
 
-ExpenseModel.getLastPeriodExpensesGroupByCategories =
-  async function getLastPeriodExpensesGroupByCategories(userId, lastPeriod) {
+ExpenseModel.getLastPeriodExpensesFilterByCategories =
+  async function getLastPeriodExpensesFilterByCategories(
+    userId,
+    lastPeriod,
+    categories
+  ) {
     const filters = [
       "user_id",
       "=",
       userId,
       "AND",
+      "expense_category",
+      "IN",
+      `(${
+        categories.length == 1
+          ? `'${categories[0]}'`
+          : categories.reduce(
+              (previous, current) => `'${previous}', '${current}'`
+            )
+      })`,
+      "AND",
       "expense_date",
       "BETWEEN",
-      `'${lastPeriod}'`,
+      `'${getCurrentDate(lastPeriod)}'`,
       "AND",
       "NOW()",
     ];
-    const orderColumns = ["expense_date"];
-    const groupBy = ["expense_category"];
-    this.initial(tableName, expenseFields, filters, orderColumns, groupBy);
-    const [results] = await this.customQuery("select", "orderBy", "groupBy");
+    this.initial(tableName, expenseFields, filters);
+    const results = await this.select();
     return results;
   };
 
@@ -87,44 +112,43 @@ ExpenseModel.getTodayTotalAmountGroupByCategory =
     ];
     const groupBy = ["expense_category"];
     this.initial(tableName, expenseFields, filters, null, groupBy);
-    const [results] = await this.customQuery("select", "groupBy");
+    const results = await this.customQuery("select", "groupBy");
     return results;
   };
 
 //@ delete
 ExpenseModel.deleteExpense = async function deleteExpense(expense_id) {
-  const filters = ["expense_id", "=", expense_id];
+  const filters = ["expense_id", "=", `'${expense_id}'`];
   this.initial(tableName, null, filters);
-  const [results] = await this.deleteOne();
+  const results = await this.deleteOne();
   return results;
 };
 
 ExpenseModel.deleteAllExpense = async function deleteExpense() {
   this.initial(tableName);
-  const [results] = await this.deleteAll();
+  const results = await this.deleteAll();
   return results;
 };
 
 // @update
 ExpenseModel.updateExpense = async function updateExpense(dataToUpdate) {
-  const {
+  const { expense_category, expense_amount, expense_date, expense_id } =
+    dataToUpdate;
+  const fieldsToChick = {
     expense_category,
     expense_amount,
-    expense_date,
-    user_id,
-    expense_id,
-  } = dataToUpdate;
-  const fieldsToChick = [
-    expense_category,
-    expense_amount,
-    expense_date,
-    user_id,
-  ];
+    expense_date: [getDateInMySQLStanders(expense_date)],
+  };
   const fields = fieldsToCheckUndefined(fieldsToChick);
-  const filters = ["expense_id", "=", expense_id];
-  this.initial("Expense", fields, filters);
-  const [results] = await this.update(fields);
-  return fields;
+  console.log(fields);
+  const filters = ["expense_id", "=", `'${expense_id}'`];
+  this.initial(tableName, fields, filters);
+  const values = [];
+  for (let i = 0; i < fields.length; i++) {
+    values.push(fieldsToChick[fields[i]]);
+  }
+  const results = await this.update(values);
+  return results;
 };
 
 export { ExpenseModel };

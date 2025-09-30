@@ -30,8 +30,8 @@ const MySQLGrammar = {
     this.fields = fields;
     this.filters = filters;
     this.orderColumns = orderColumns;
-    this.groupByColumns = groupByColumns;
     this.havingFilters = havingFilters;
+    this.groupByColumns = groupByColumns;
   },
 
   buildGetUserProcedure: function buildGetUserProcedure(id) {

@@ -64,7 +64,9 @@ UserModel.updateUser = async function updateUser(data) {
   const fields = fieldsToCheckUndefined(fieldsToChick);
   const filters = ["user_id", "=", `'${id}'`];
   this.initial("Users", fields, filters);
-
+  for (let i = 0; i < fields.length; i++) {
+    values.push(fieldsToChick[fields[i]]);
+  }
   const result = await this.update(fields);
   return result;
 };

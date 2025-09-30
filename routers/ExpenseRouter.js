@@ -7,7 +7,7 @@ const ExpenseRouter = express.Router();
 ExpenseRouter.get(
   "",
   tryCatchFunction(requiredAuth),
-  tryCatchFunction(ExpenseController.getExpense)
+  tryCatchFunction(ExpenseController.getExpense.bind(ExpenseController))
 );
 
 ExpenseRouter.post(

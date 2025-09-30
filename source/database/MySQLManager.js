@@ -8,7 +8,7 @@ const MySQLManager = Object.create(MySQLGrammar);
 MySQLManager.insert = async function insert(values) {
   const query = this.buildInsert();
   const [results] = await execute(query, values);
-  return results;
+  return results.insertId;
 };
 
 MySQLManager.getOneUser = async function getOneUser(id, values) {
@@ -55,14 +55,16 @@ MySQLManager.update = async function update(values) {
   return results;
 };
 MySQLGrammar.customQuery = async function customQuery(values, ...partsToBuild) {
-  const queries = partsToBuild.forEach((query) => {
+  const queries = partsToBuild.map((query) => {
+    // console.log(this);
     if (!MySQLMapping[query]) {
       throw AppError("there is no such query like that in MySQL");
     }
     return MySQLMapping[query].call(this, values);
   });
   const query = this.addMultiplyQueriesTogether(...queries);
-  const [results] = execute(query, values);
+  console.log(query);
+  const [results] = await execute(query, values);
   return results;
 };
 export { MySQLManager };
