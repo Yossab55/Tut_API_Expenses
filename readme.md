@@ -55,12 +55,16 @@ Built with **Node.js, Express, MySQL**, and follows modern backend best practice
 - `POST /signup` → Register a new user
 - `POST /login` → Login with email & password
 - `POST /logout` → Logout user
+### User
+
+- `PATCH /user` → Update an user
+- `DELETE /user` → delete your account
 
 ### Expenses
 
 - `GET /expenses` → Get all expenses (with filtering & grouping)
 - `POST /expenses` → Add new expense
-- `PUT /expenses/:id` → Update an expense
+- `PATCH /expenses/:id` → Update an expense
 - `DELETE /expenses/:id` → Delete an expense
 
 ---
