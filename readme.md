@@ -48,24 +48,6 @@ Built with **Node.js, Express, MySQL**, and follows modern backend best practice
 
 ---
 
-## 📂 Project Structure summary
-
-├── app.js # Main app entry point
-├── controllers
-│ └── ExpenseController.js
-│ └── UserController.js
-├── middlewares
-│ └── AuthMiddleware.js
-├── models
-│ └── ExpenseModel.js
-├── routes
-│ └── expenseRoutes.js
-├── utils
-│ └── dbManager.js
-└── dbSchema.sql
-
----
-
 ## 🔑 API Endpoints
 
 ### Auth
